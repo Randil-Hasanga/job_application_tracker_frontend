@@ -15,6 +15,7 @@ function AddApplication() {
         dateApplied: '',
         status: '',
         notes: '',
+        vacancy_link: '', // Added field for application link
     });
 
     const handleChange = (e: { target: { name: any; value: any } }) => {
@@ -34,6 +35,7 @@ function AddApplication() {
             dateApplied: '',
             status: '',
             notes: '',
+            vacancy_link: '', // Reset application link
         });
     };
 
@@ -115,6 +117,19 @@ function AddApplication() {
                                 ))}
                             </select>
                         </div>
+                    </div>
+
+                    {/* Application Link */}
+                    <div>
+                        <label className="block font-medium text-gray-700 mb-1">Jov Vacancy Link</label>
+                        <input
+                            type="url"
+                            name="applicationLink"
+                            value={formData.vacancy_link}
+                            onChange={handleChange}
+                            placeholder="Enter application link"
+                            className="w-full border border-gray-300 px-4 py-2 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                        />
                     </div>
 
                     {/* Notes */}
