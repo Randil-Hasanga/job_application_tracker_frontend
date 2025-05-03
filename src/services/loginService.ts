@@ -32,6 +32,16 @@ const LoginService = {
         } catch (error) {
 
         }
+    },
+
+    async getUserData() {
+        try {
+            const response = await axios.get(`${baseUrl}/user`, { withCredentials: true });
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching user data:', error);
+            throw error;
+        }
     }
 }
 

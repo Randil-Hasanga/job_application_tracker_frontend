@@ -41,7 +41,7 @@ export default function LoginPage() {
         try {
             const response = await LoginService.login(email, password); // Await the login response
             console.log('Login successful:', response);
-            navigate('/'); // Redirect to dashboard
+            navigate('/dashboard'); // Redirect to dashboard
         } catch (error) {
             console.error('Login failed:', error);
             setErrorMessage('Invalid email or password. Please try again.'); // Set general error message
