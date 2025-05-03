@@ -205,7 +205,7 @@ export default function Dashboard() {
             {/* No Applications Message */}
             {filteredApps.length === 0 ? (
                 <>
-                <div className="flex gap-4 mb-4">
+                    <div className="flex gap-4 mb-4">
                         <select
                             value={statusFilter}
                             onChange={e => setStatusFilter(e.target.value)}
@@ -232,22 +232,22 @@ export default function Dashboard() {
                         </button>
                     </div>
                     <div className="flex flex-col items-center justify-center mt-20">
-                    {/* SVG illustration */}
-                    <img
-                        src="src/assets/nothing_found.svg"
-                        alt="No Applications"
-                        className="w-90 h-80 mb-6"
-                    />
-                    <h2 className="text-xl font-semibold text-gray-700 mb-4">No applications found</h2>
-                    <button
-                        onClick={() => navigate('/add-application')}
-                        className="bg-blue-500 text-white px-6 py-2 rounded-lg shadow hover:bg-blue-600"
-                    >
-                        Add Application
-                    </button>
-                </div>
+                        {/* SVG illustration */}
+                        <img
+                            src="src/assets/nothing_found.svg"
+                            alt="No Applications"
+                            className="w-90 h-80 mb-6"
+                        />
+                        <h2 className="text-xl font-semibold text-gray-700 mb-4">No applications found</h2>
+                        <button
+                            onClick={() => navigate('/add-application')}
+                            className="bg-blue-500 text-white px-6 py-2 rounded-lg shadow hover:bg-blue-600"
+                        >
+                            Add Application
+                        </button>
+                    </div>
                 </>
-                
+
 
             ) : (
                 <>
