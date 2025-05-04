@@ -1,5 +1,5 @@
 import { ChevronLeftIcon } from '@heroicons/react/24/solid';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ApplicationService from '../services/applicationService';
 import TextGeneratorService from '../services/textGenService';
@@ -31,6 +31,8 @@ function AddApplication() {
     });
 
     const [description, setJobDescription] = useState('');
+    const [aiLoading, setAiLoading] = useState(false); // Loading state for AI button
+    const [submitLoading, setSubmitLoading] = useState(false); // Loading state for "Add Application" button
 
     const handleChange = (e: { target: { name: any; value: any } }) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -79,6 +81,7 @@ function AddApplication() {
             return;
         }
 
+        setSubmitLoading(true); // Start loading animation for "Add Application" button
         try {
             const response = await ApplicationService.createApplication(formData);
             console.log(response);
@@ -94,6 +97,8 @@ function AddApplication() {
             navigate('/dashboard');
         } catch (error) {
             console.log(error);
+        } finally {
+            setSubmitLoading(false); // Stop loading animation
         }
     };
 
@@ -117,8 +122,9 @@ function AddApplication() {
     };
 
     const handleProcessJobDescription = async () => {
+        setAiLoading(true); // Start loading animation for AI button
         try {
-            const response = await TextGeneratorService.extractJobData({description: description});
+            const response = await TextGeneratorService.extractJobData({ description });
             setFormData({
                 company: response.company,
                 role: response.role,
@@ -129,6 +135,8 @@ function AddApplication() {
             });
         } catch (error) {
             console.error('Error processing job description:', error);
+        } finally {
+            setAiLoading(false); // Stop loading animation
         }
     };
 
@@ -145,17 +153,17 @@ function AddApplication() {
             </header>
 
             {/* Form Container */}
-            <div className="bg-white rounded-lg border border-blue-400 shadow p-8 max-w-4xl mx-auto">
-                <h2 className="text-3xl font-semibold text-gray-800 mb-6 text-left">Add Job Application</h2>
-                <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="bg-white rounded-3xl border border-blue-400 shadow px-8 py-4 max-w-4xl mx-auto">
+                <h2 className="text-3xl font-semibold text-gray-800 mb-2 text-right">Add Job Application</h2>
+                <form onSubmit={handleSubmit} className="space-y-4">
                     {/* Job Description Section */}
                     <div className="rounded-3xl mb-6">
-                        <label className="block font-medium text-gray-700 mb-1">Job Description</label>
+                        <label className="block font-medium text-Black mb-2">You can use AI to extract information!</label>
                         <div className="relative">
                             <textarea
                                 value={description}
                                 onChange={handleJobDescriptionChange}
-                                placeholder="Exreact using AI   "
+                                placeholder="Extract using AI"
                                 rows={3}
                                 className="w-full border border-gray-300 px-4 py-2 rounded-3xl focus:ring-2 focus:ring-blue-500 focus:outline-none"
                             />
@@ -163,26 +171,48 @@ function AddApplication() {
                             <button
                                 type="button"
                                 onClick={handleProcessJobDescription}
-                                className="absolute top-2 right-2 p-2 rounded-full bg-blue-600 text-white hover:bg-blue-700"
+                                className={`absolute top-2 right-2 p-2 rounded-full bg-blue-600 text-white hover:bg-blue-700 ${aiLoading ? 'opacity-70 cursor-not-allowed' : ''}`}
+                                disabled={aiLoading} // Disable button while loading
                             >
-
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 448 512"
-                                    className="w-6 h-6 text-white"
-                                    fill="currentColor"
-                                >
-                                    <path d="M248 106.6c18.9-9 32-28.3 32-50.6c0-30.9-25.1-56-56-56s-56 25.1-56 56c0 22.3 13.1 41.6 32 50.6l0 98.8c-2.8 1.3-5.5 2.9-8 4.7l-80.1-45.8c1.6-20.8-8.6-41.6-27.9-52.8C57.2 96 23 105.2 7.5 132S1.2 193 28 208.5c1.3 .8 2.6 1.5 4 2.1l0 90.8c-1.3 .6-2.7 1.3-4 2.1C1.2 319-8 353.2 7.5 380S57.2 416 84 400.5c19.3-11.1 29.4-32 27.8-52.8l50.5-28.9c-11.5-11.2-19.9-25.6-23.8-41.7L88 306.1c-2.6-1.8-5.2-3.3-8-4.7l0-90.8c2.8-1.3 5.5-2.9 8-4.7l80.1 45.8c-.1 1.4-.2 2.8-.2 4.3c0 22.3 13.1 41.6 32 50.6l0 98.8c-18.9 9-32 28.3-32 50.6c0 30.9 25.1 56 56 56s56-25.1 56-56c0-22.3-13.1-41.6-32-50.6l0-98.8c2.8-1.3 5.5-2.9 8-4.7l80.1 45.8c-1.6 20.8 8.6 41.6 27.8 52.8c26.8 15.5 61 6.3 76.5-20.5s6.3-61-20.5-76.5c-1.3-.8-2.7-1.5-4-2.1l0-90.8c1.4-.6 2.7-1.3 4-2.1c26.8-15.5 36-49.7 20.5-76.5S390.8 96 364 111.5c-19.3 11.1-29.4 32-27.8 52.8l-50.6 28.9c11.5 11.2 19.9 25.6 23.8 41.7L360 205.9c2.6 1.8 5.2 3.3 8 4.7l0 90.8c-2.8 1.3-5.5 2.9-8 4.6l-80.1-45.8c.1-1.4 .2-2.8 .2-4.3c0-22.3-13.1-41.6-32-50.6l0-98.8z" />
-                                </svg>
-
-
+                                {aiLoading ? (
+                                    <svg
+                                        className="animate-spin h-5 w-5 text-white"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <circle
+                                            className="opacity-25"
+                                            cx="12"
+                                            cy="12"
+                                            r="10"
+                                            stroke="currentColor"
+                                            strokeWidth="4"
+                                        ></circle>
+                                        <path
+                                            className="opacity-75"
+                                            fill="currentColor"
+                                            d="M4 12a8 8 0 018-8v8H4z"
+                                        ></path>
+                                    </svg>
+                                ) : (
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 448 512"
+                                        className="w-6 h-6 text-white"
+                                        fill="currentColor"
+                                    >
+                                        <path d="M248 106.6c18.9-9 32-28.3 32-50.6c0-30.9-25.1-56-56-56s-56 25.1-56 56c0 22.3 13.1 41.6 32 50.6l0 98.8c-2.8 1.3-5.5 2.9-8 4.7l-80.1-45.8c1.6-20.8-8.6-41.6-27.9-52.8C57.2 96 23 105.2 7.5 132S1.2 193 28 208.5c1.3 .8 2.6 1.5 4 2.1l0 90.8c-1.3 .6-2.7 1.3-4 2.1C1.2 319-8 353.2 7.5 380S57.2 416 84 400.5c19.3-11.1 29.4-32 27.8-52.8l50.5-28.9c-11.5-11.2-19.9-25.6-23.8-41.7L88 306.1c-2.6-1.8-5.2-3.3-8-4.7l0-90.8c2.8-1.3 5.5-2.9 8-4.7l80.1 45.8c-.1 1.4-.2 2.8-.2 4.3c0 22.3 13.1 41.6 32 50.6l0 98.8c-18.9 9-32 28.3-32 50.6c0 30.9 25.1 56 56 56s56-25.1 56-56c0-22.3-13.1-41.6-32-50.6l0-98.8c2.8-1.3 5.5-2.9 8-4.7l80.1 45.8c-1.6 20.8 8.6 41.6 27.8 52.8c26.8 15.5 61 6.3 76.5-20.5s6.3-61-20.5-76.5c-1.3-.8-2.7-1.5-4-2.1l0-90.8c1.4-.6 2.7-1.3 4-2.1c26.8-15.5 36-49.7 20.5-76.5S390.8 96 364 111.5c-19.3 11.1-29.4 32-27.8 52.8l-50.6 28.9c11.5 11.2 19.9 25.6 23.8 41.7L360 205.9c2.6 1.8 5.2 3.3 8 4.7l0 90.8c-2.8 1.3-5.5 2.9-8 4.6l-80.1-45.8c.1-1.4 .2-2.8 .2-4.3c0-22.3-13.1-41.6-32-50.6l0-98.8z" />
+                                    </svg>
+                                )}
                             </button>
                         </div>
+                        <p className='text-sm w-full space-y-0 text-center'>AI can make mistakes. Check important info</p>
                     </div>
-
+                    <hr className="my-6 border-gray-500" />
                     {/* Company */}
                     <div className="rounded-3xl">
-                        <label className="block font-medium text-gray-700 mb-1">Company</label>
+                        <label className="block font-bold text-gray-700 mb-1">Company</label>
                         <input
                             type="text"
                             name="company"
@@ -196,7 +226,7 @@ function AddApplication() {
 
                     {/* Role */}
                     <div className="rounded-3xl">
-                        <label className="block font-medium text-gray-700 mb-1">Role</label>
+                        <label className="block font-bold text-gray-700 mb-1">Role</label>
                         <input
                             type="text"
                             name="role"
@@ -211,7 +241,7 @@ function AddApplication() {
                     {/* Date and Status */}
                     <div className="flex space-x-6 rounded-3xl">
                         <div className="flex-1">
-                            <label className="block font-medium text-gray-700 mb-1">Date Applied</label>
+                            <label className="block font-bold text-gray-700 mb-1">Date Applied</label>
                             <input
                                 type="date"
                                 name="dateApplied"
@@ -224,7 +254,7 @@ function AddApplication() {
 
                         {/* Status Dropdown */}
                         <div className="flex-1 rounded-3xl">
-                            <label className="block font-medium text-gray-700 mb-1">Status</label>
+                            <label className="block font-bold text-gray-700 mb-1">Status</label>
                             <select
                                 name="status"
                                 value={formData.status}
@@ -248,13 +278,13 @@ function AddApplication() {
 
                     {/* Application Link */}
                     <div className="rounded-3xl">
-                        <label className="block font-medium text-gray-700 mb-1">Job Vacancy Link</label>
+                        <label className="block font-bold text-gray-700 mb-1">Job Vacancy Link</label>
                         <input
                             type="text"
                             name="vacancy_link"
                             value={formData.vacancy_link}
                             onChange={handleChange}
-                            placeholder="Enter application link"
+                            placeholder="https://www.example.com"
                             className="w-full border border-gray-300 px-4 py-2 rounded-3xl focus:ring-2 focus:ring-blue-500 focus:outline-none"
                         />
                         {errors.vacancy_link && <p className="text-red-500 text-sm mt-1">{errors.vacancy_link}</p>}
@@ -262,7 +292,7 @@ function AddApplication() {
 
                     {/* Notes */}
                     <div className="rounded-3xl">
-                        <label className="block font-medium text-gray-700 mb-1">Notes</label>
+                        <label className="block font-bold text-gray-700 ">Notes</label>
                         <textarea
                             name="notes"
                             value={formData.notes}
@@ -284,23 +314,49 @@ function AddApplication() {
                         </button>
                         <button
                             type="submit"
-                            className="bg-blue-600 border border-white text-white px-4 py-2 rounded-3xl hover:bg-white hover:text-black hover:border-black shadow-lg flex items-center gap-2"
+                            className={`bg-blue-600 border border-white text-white px-4 py-2 rounded-3xl hover:bg-white hover:text-black hover:border-black shadow-lg flex items-center gap-2 ${submitLoading ? 'opacity-70 cursor-not-allowed' : ''}`}
+                            disabled={submitLoading} // Disable button while loading
                         >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                strokeWidth={2}
-                                stroke="currentColor"
-                                className="w-6 h-6"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M12 4.5v15m7.5-7.5h-15"
-                                />
-                            </svg>
-                            Add Application
+                            {submitLoading ? (
+                                <svg
+                                    className="animate-spin h-5 w-5 text-white"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <circle
+                                        className="opacity-25"
+                                        cx="12"
+                                        cy="12"
+                                        r="10"
+                                        stroke="currentColor"
+                                        strokeWidth="4"
+                                    ></circle>
+                                    <path
+                                        className="opacity-75"
+                                        fill="currentColor"
+                                        d="M4 12a8 8 0 018-8v8H4z"
+                                    ></path>
+                                </svg>
+                            ) : (
+                                <>
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        strokeWidth={2}
+                                        stroke="currentColor"
+                                        className="w-6 h-6"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            d="M12 4.5v15m7.5-7.5h-15"
+                                        />
+                                    </svg>
+                                    Add Application
+                                </>
+                            )}
                         </button>
                     </div>
                 </form>
