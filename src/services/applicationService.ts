@@ -4,10 +4,16 @@ const baseUrl = `${import.meta.env.VITE_BASE_URL}/application`;
 
 const ApplicationService = {
     async getApplications() {
-        const response = await axios.get(`${baseUrl}`, { withCredentials: true });
-        return response.data;
+        try {
+            const response = await axios.get(`${baseUrl}`, { withCredentials: true });
+            return response.data;
+        } catch (error) {
+            console.error("Error getting applications:", error);
+            throw error;
+        }
+
     },
-    async updateApplication(applicationId : string, applicationData: any) {
+    async updateApplication(applicationId: string, applicationData: any) {
         try {
             const response = await axios.patch(`${baseUrl}/${applicationId}`, applicationData, { withCredentials: true });
             return response.data;
@@ -28,7 +34,7 @@ const ApplicationService = {
 
     async createApplication(applicationData: any) {
         try {
-            const response = await axios.post(`${baseUrl}`, applicationData, {withCredentials: true});
+            const response = await axios.post(`${baseUrl}`, applicationData, { withCredentials: true });
             return response.data;
         } catch (error) {
             console.error("Error Inserting application:", error);
