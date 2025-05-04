@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const baseUrl = `${import.meta.env.VITE_BASE_URL}/auth`;
+console.log("Base URL:", import.meta.env.VITE_BASE_URL);
 
 const LoginService = {
     async login(email: string, password: string) {
