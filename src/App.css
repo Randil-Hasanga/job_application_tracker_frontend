@@ -1,4 +1,12 @@
 #root {
   margin:  auto;
 }
+select {
+  appearance: none; /* Remove default arrow */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 2rem; /* Adjust the padding to make space for the arrow */
+  background: url('src/assets/arrow-icon.svg') no-repeat right 0.75rem center; /* Add custom arrow */
+  background-size: 0.8rem; /* Adjust the size of the custom arrow */
+}
 

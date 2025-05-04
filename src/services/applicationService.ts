@@ -24,7 +24,17 @@ const ApplicationService = {
             console.error("Error deleting application:", error);
             throw error;
         }
-    }
+    },
+
+    async createApplication(applicationData: any) {
+        try {
+            const response = await axios.post(`${baseUrl}`, applicationData, {withCredentials: true});
+            return response.data;
+        } catch (error) {
+            console.error("Error Inserting application:", error);
+            throw error;
+        }
+    },
 }
 
 export default ApplicationService;

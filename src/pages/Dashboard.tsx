@@ -185,7 +185,7 @@ export default function Dashboard() {
     return (
         <div className="rounded-xl h-screen overflow-auto bg-gray-50 px-8" style={{ fontFamily: 'Inter, sans-serif' }}>
             {/* Header */}
-            <header className="flex justify-between items-center mb-6 my-6">
+            <header className="flex justify-between items-center mb-6 my-10">
                 <div className="flex items-center gap-4">
                     <img
                         src={user?.picture || 'https://avatar.iran.liara.run/public/30'}
@@ -209,7 +209,7 @@ export default function Dashboard() {
                         <select
                             value={statusFilter}
                             onChange={e => setStatusFilter(e.target.value)}
-                            className="border border-gray-300 rounded px-4 py-2 w-56"
+                            className="border border-gray-300 rounded-3xl px-4 py-2 w-56"
                         >
                             <option value="">Filter by status</option>
                             <option value="Applied">Applied</option>
@@ -222,12 +222,26 @@ export default function Dashboard() {
                             placeholder="Search by company or role"
                             value={search}
                             onChange={e => setSearch(e.target.value)}
-                            className="border border-gray-300 rounded px-4 py-2 flex-grow"
+                            className="border border-gray-300 rounded-3xl px-4 py-2 flex-grow"
                         />
                         <button
                             onClick={() => navigate('/add-application')}
-                            className="bg-blue-400 px-4 rounded-3xl hover:bg-gray-600 hover:text-white shadow-lg"
+                            className="bg-blue-600 border border-white text-white px-4 py-2 rounded-3xl hover:bg-white hover:text-black hover:border-black shadow-lg flex items-center gap-2"
                         >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                strokeWidth={2}
+                                stroke="currentColor"
+                                className="w-6 h-6"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M12 4.5v15m7.5-7.5h-15"
+                                />
+                            </svg>
                             Add Application
                         </button>
                     </div>
@@ -241,8 +255,22 @@ export default function Dashboard() {
                         <h2 className="text-xl font-semibold text-gray-700 mb-4">No applications found</h2>
                         <button
                             onClick={() => navigate('/add-application')}
-                            className="bg-blue-500 text-white px-6 py-2 rounded-lg shadow hover:bg-blue-600"
+                            className="bg-blue-600 border border-white text-white px-4 py-2 rounded-3xl hover:bg-white hover:text-black hover:border-black shadow-lg flex items-center gap-2"
                         >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                strokeWidth={2}
+                                stroke="currentColor"
+                                className="w-6 h-6"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M12 4.5v15m7.5-7.5h-15"
+                                />
+                            </svg>
                             Add Application
                         </button>
                     </div>
@@ -256,7 +284,7 @@ export default function Dashboard() {
                         <select
                             value={statusFilter}
                             onChange={e => setStatusFilter(e.target.value)}
-                            className="border border-gray-300 rounded px-4 py-2 w-56"
+                            className="border border-gray-300 rounded-3xl px-4 py-2 w-56"
                         >
                             <option value="">Filter by status</option>
                             <option value="Applied">Applied</option>
@@ -269,24 +297,38 @@ export default function Dashboard() {
                             placeholder="Search by company or role"
                             value={search}
                             onChange={e => setSearch(e.target.value)}
-                            className="border border-gray-300 rounded px-4 py-2 flex-grow"
+                            className="border border-gray-300 rounded-3xl px-4 py-2 flex-grow"
                         />
                         <button
                             onClick={() => navigate('/add-application')}
-                            className="bg-blue-400 px-4 rounded-3xl hover:bg-gray-600 hover:text-white shadow-lg"
+                            className="bg-blue-600 border border-white text-white px-4 py-2 rounded-3xl hover:bg-white hover:text-black hover:border-black shadow-lg flex items-center gap-2"
                         >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                strokeWidth={2}
+                                stroke="currentColor"
+                                className="w-6 h-6"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M12 4.5v15m7.5-7.5h-15"
+                                />
+                            </svg>
                             Add Application
                         </button>
                     </div>
 
                     {/* Table */}
-                    <div className="bg-white shadow overflow-x-auto relative rounded-3xl border border-blue-200">
+                    <div className="bg-white shadow overflow-x-auto relative rounded-3xl border border-blue-200 my-10">
                         {/* Left Pagination Icon */}
                         {totalPages > 1 && (
                             <button
                                 onClick={handlePreviousPage}
                                 disabled={currentPage === 1}
-                                className={`z-10 absolute left-0 top-1/2 transform -translate-y-1/2 px-3 py-2 rounded-full ${currentPage === 1 ? 'z-10 cursor-not-allowed' : ' text-black hover:text-blue-700'
+                                className={`z-10 absolute -left-0 top-1/2 transform -translate-y-1/2 px-3 py-2 rounded-full ${currentPage === 1 ? 'z-10 cursor-not-allowed' : ' text-black hover:text-blue-700'
                                     }`}
                             >
                                 <svg
@@ -309,24 +351,29 @@ export default function Dashboard() {
                         <table className="min-w-full divide-y divide-gray-200 text-sm relative border rounded-3xl">
                             <thead className="bg-blue-100 text-gray-600 text-left">
                                 <tr>
+                                    <th className="px-6 py-3 font-semibold text-center"></th> {/* Empty first column */}
                                     <th className="px-6 py-3 font-semibold text-center">Company</th>
                                     <th className="px-6 py-3 font-semibold text-center">Role</th>
                                     <th className="px-6 py-3 font-semibold text-center">Date Applied</th>
                                     <th className="px-6 py-3 font-semibold text-center">Status</th>
                                     <th className="px-6 py-3 font-semibold text-center">Job Link</th>
                                     <th className="px-6 py-3 font-semibold text-center">Notes</th>
-                                    <th className="px-6 py-3 font-semibold text-center"></th>
+                                    <th className="px-6 py-3 font-semibold text-left"></th>
+                                    <th className="px-6 py-3 font-semibold text-center"></th> {/* Empty last column */}
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-100 text-gray-700">
                                 {paginatedApps.map(app => (
                                     <tr key={app._id} className="relative">
+                                        <td className="px-6 py-3 text-center"></td> {/* Empty first column */}
                                         <td className="px-6 py-3 text-center">
                                             {editableRowId === app._id ? (
                                                 <input
                                                     type="text"
                                                     value={app.company}
-                                                    onChange={(e) => setApps(apps.map(a => a._id === app._id ? { ...a, company: e.target.value } : a))}
+                                                    onChange={(e) =>
+                                                        setApps(apps.map(a => a._id === app._id ? { ...a, company: e.target.value } : a))
+                                                    }
                                                     className="border border-gray-300 rounded px-2 py-1 w-full"
                                                 />
                                             ) : (
@@ -338,14 +385,18 @@ export default function Dashboard() {
                                                 <input
                                                     type="text"
                                                     value={app.role}
-                                                    onChange={(e) => setApps(apps.map(a => a._id === app._id ? { ...a, role: e.target.value } : a))}
+                                                    onChange={(e) =>
+                                                        setApps(apps.map(a => a._id === app._id ? { ...a, role: e.target.value } : a))
+                                                    }
                                                     className="border border-gray-300 rounded px-2 py-1 w-full"
                                                 />
                                             ) : (
                                                 app.role
                                             )}
                                         </td>
-                                        <td className="px-6 py-3 text-center">{new Date(app.dateApplied).toLocaleDateString()}</td>
+                                        <td className="px-6 py-3 text-center">
+                                            {new Date(app.dateApplied).toLocaleDateString()}
+                                        </td>
                                         <td className="px-6 py-3 relative text-center">
                                             <span
                                                 className={`text-xs px-2 py-1 rounded-full font-medium cursor-pointer ${statusColors[app.status]}`}
@@ -372,7 +423,9 @@ export default function Dashboard() {
                                                 <input
                                                     type="text"
                                                     value={app.vacancy_link}
-                                                    onChange={(e) => setApps(apps.map(a => a._id === app._id ? { ...a, vacancy_link: e.target.value } : a))}
+                                                    onChange={(e) =>
+                                                        setApps(apps.map(a => a._id === app._id ? { ...a, vacancy_link: e.target.value } : a))
+                                                    }
                                                     className="border border-gray-300 rounded px-2 py-1 w-full"
                                                 />
                                             ) : (
@@ -402,149 +455,60 @@ export default function Dashboard() {
                                                     className={`text-green-600 hover:text-green-800 flex items-center justify-center ${loadingRowId === app._id ? 'opacity-70 cursor-not-allowed' : ''
                                                         }`}
                                                     title="Save"
-                                                    disabled={loadingRowId === app._id} // Disable button while loading
+                                                    disabled={loadingRowId === app._id}
                                                 >
                                                     {loadingRowId === app._id ? (
-                                                        <svg
-                                                            className="animate-spin h-5 w-5 text-green-600"
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                            fill="none"
-                                                            viewBox="0 0 24 24"
-                                                        >
-                                                            <circle
-                                                                className="opacity-25"
-                                                                cx="12"
-                                                                cy="12"
-                                                                r="10"
-                                                                stroke="currentColor"
-                                                                strokeWidth="4"
-                                                            ></circle>
-                                                            <path
-                                                                className="opacity-75"
-                                                                fill="currentColor"
-                                                                d="M4 12a8 8 0 018-8v8H4z"
-                                                            ></path>
+                                                        <svg className="animate-spin h-5 w-5 text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
                                                         </svg>
                                                     ) : (
-                                                        <svg
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                            fill="none"
-                                                            viewBox="0 0 24 24"
-                                                            strokeWidth="1.5"
-                                                            stroke="currentColor"
-                                                            className="w-5 h-5"
-                                                        >
-                                                            <path
-                                                                strokeLinecap="round"
-                                                                strokeLinejoin="round"
-                                                                d="M4.5 12.75l6 6 9-13.5"
-                                                            />
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                                                         </svg>
                                                     )}
                                                 </button>
                                             ) : (
-                                                <button
-                                                    onClick={() => handleUpdateToggle(app._id)}
-                                                    className="text-blue-600 hover:text-blue-800"
-                                                    title="Update"
-                                                >
-                                                    <svg
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        fill="none"
-                                                        viewBox="0 0 24 24"
-                                                        strokeWidth={1.5}
-                                                        stroke="currentColor"
-                                                        className="w-5 h-5"
-                                                    >
-                                                        <path
-                                                            strokeLinecap="round"
-                                                            strokeLinejoin="round"
-                                                            d="M16.862 3.487a2.25 2.25 0 113.182 3.182L7.5 19.213l-4.5 1.5 1.5-4.5L16.862 3.487z"
-                                                        />
+                                                <button onClick={() => handleUpdateToggle(app._id)} className="text-blue-600 hover:text-blue-800" title="Update">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 3.487a2.25 2.25 0 113.182 3.182L7.5 19.213l-4.5 1.5 1.5-4.5L16.862 3.487z" />
                                                     </svg>
                                                 </button>
                                             )}
                                             {deleteConfirmationId === app._id ? (
                                                 <div className="flex gap-2 border border-gray-300 rounded px-2 py-1 animate-fadeIn bg-slate-50">
-                                                    {/* Check Icon for Confirming Deletion */}
-                                                    <button
-                                                        onClick={() => handleDelete(app._id)}
-                                                        className="text-green-600 hover:text-green-800"
-                                                        title="Confirm Delete"
-                                                    >
-                                                        <svg
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                            fill="none"
-                                                            viewBox="0 0 24 24"
-                                                            strokeWidth="1.5"
-                                                            stroke="currentColor"
-                                                            className="w-5 h-5"
-                                                        >
-                                                            <path
-                                                                strokeLinecap="round"
-                                                                strokeLinejoin="round"
-                                                                d="M4.5 12.75l6 6 9-13.5"
-                                                            />
+                                                    <button onClick={() => handleDelete(app._id)} className="text-green-600 hover:text-green-800" title="Confirm Delete">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                                                         </svg>
                                                     </button>
-
-                                                    {/* Cross Icon for Canceling Deletion */}
-                                                    <button
-                                                        onClick={() => setDeleteConfirmationId(null)}
-                                                        className="text-red-600 hover:text-red-800"
-                                                        title="Cancel Delete"
-                                                    >
-                                                        <svg
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                            fill="none"
-                                                            viewBox="0 0 24 24"
-                                                            strokeWidth="1.5"
-                                                            stroke="currentColor"
-                                                            className="w-5 h-5"
-                                                        >
-                                                            <path
-                                                                strokeLinecap="round"
-                                                                strokeLinejoin="round"
-                                                                d="M6 18L18 6M6 6l12 12"
-                                                            />
+                                                    <button onClick={() => setDeleteConfirmationId(null)} className="text-red-600 hover:text-red-800" title="Cancel Delete">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                                                         </svg>
                                                     </button>
                                                 </div>
                                             ) : (
-                                                // Trash Can Icon for Delete
-                                                <button
-                                                    onClick={() => setDeleteConfirmationId(app._id)}
-                                                    className="text-red-600 hover:text-red-800"
-                                                    title="Delete"
-                                                >
-                                                    <svg
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        fill="none"
-                                                        viewBox="0 0 24 24"
-                                                        strokeWidth="1.5"
-                                                        stroke="currentColor"
-                                                        className="w-5 h-5"
-                                                    >
-                                                        <path
-                                                            strokeLinecap="round"
-                                                            strokeLinejoin="round"
-                                                            d="M9 3.75V3a3 3 0 013-3h0a3 3 0 013 3v.75m6.75 0H3.75m16.5 0a.75.75 0 01.75.75v.75a.75.75 0 01-.75.75H3.75a.75.75 0 01-.75-.75V4.5a.75.75 0 01.75-.75m0 0L5.25 21a2.25 2.25 0 002.25 2.25h9a2.25 2.25 0 002.25-2.25L20.25 3.75H3.75z"
-                                                        />
+                                                <button onClick={() => setDeleteConfirmationId(app._id)} className="text-red-600 hover:text-red-800" title="Delete">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 3.75V3a3 3 0 013-3h0a3 3 0 013 3v.75m6.75 0H3.75m16.5 0a.75.75 0 01.75.75v.75a.75.75 0 01-.75.75H3.75a.75.75 0 01-.75-.75V4.5a.75.75 0 01.75-.75m0 0L5.25 21a2.25 2.25 0 002.25 2.25h9a2.25 2.25 0 002.25-2.25L20.25 3.75H3.75z" />
                                                     </svg>
                                                 </button>
                                             )}
                                         </td>
+                                        <td className="px-6 py-3 text-center"></td> {/* Empty last column */}
                                     </tr>
                                 ))}
                             </tbody>
                         </table>
+
 
                         {/* Right Pagination Icon */}
                         {totalPages > 1 && (
                             <button
                                 onClick={handleNextPage}
                                 disabled={currentPage === totalPages}
-                                className={`z-10 absolute right-0 top-1/2 transform -translate-y-1/2 px-3 py-2 rounded-full ${currentPage === totalPages ? 'z-10 cursor-not-allowed' : ' text-black hover:text-blue-700'
+                                className={`z-10 absolute -right-0 top-1/2 transform -translate-y-1/2 px-3 py-2 rounded-full ${currentPage === totalPages ? 'z-10 cursor-not-allowed' : ' text-black hover:text-blue-700'
                                     }`}
                             >
                                 <svg
