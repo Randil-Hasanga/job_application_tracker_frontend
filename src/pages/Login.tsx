@@ -27,7 +27,7 @@ export default function LoginPage() {
         } else if (!/\S+@\S+\.\S+/.test(email)) {
             newErrors.email = 'Please enter a valid email address.';
         }
-        
+
         if (!password.trim()) {
             newErrors.password = 'Password is required.';
         }
@@ -43,7 +43,7 @@ export default function LoginPage() {
         try {
             const response = await LoginService.login(email, password);
             console.log('Login successful:', response);
-            navigate('/dashboard');
+            navigate('/');
         } catch (error) {
             console.error('Login failed:', error);
             setErrorMessage('Invalid email or password. Please try again.');
