@@ -5,8 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import LoginService from '../services/loginService';
 
 export default function RegistrationPage() {
-    const navigate = useNavigate();
 
+    const navigate = useNavigate();
     const [displayName, setDisplayName] = React.useState('');
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
@@ -42,12 +42,12 @@ export default function RegistrationPage() {
 
         setErrors(newErrors);
 
-        // If there are any errors, stop form submission
         if (Object.values(newErrors).some((error) => error)) {
             return;
         }
 
-        setLoading(true); // Start loading animation
+        setLoading(true);
+
         try {
             const response = await LoginService.signUp(displayName, email, password);
             console.log('Sign up response:', response);
@@ -67,7 +67,7 @@ export default function RegistrationPage() {
                 email: 'An error occurred during sign up. Please try again.',
             }));
         } finally {
-            setLoading(false); // Stop loading animation
+            setLoading(false);
         }
     };
 

@@ -29,8 +29,8 @@ type User = {
 };
 
 export default function Dashboard() {
-    const ITEMS_PER_PAGE = 10; // Number of items per page
-    const [currentPage, setCurrentPage] = useState(1); // Track the current page
+    const ITEMS_PER_PAGE = 10;
+    const [currentPage, setCurrentPage] = useState(1);
     const [applications, setApplications] = useState<Application[]>([]);
     const [apps, setApps] = useState<Application[]>([]);
     const [search, setSearch] = useState('');
@@ -40,17 +40,13 @@ export default function Dashboard() {
     const [deleteConfirmationId, setDeleteConfirmationId] = useState<string | null>(null);
     const [loadingRowId, setLoadingRowId] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(true); // New state for loading animation
-
+    const [user, setUser] = useState<User>();
     const navigate = useNavigate();
 
-    const [user, setUser] = useState<User>();
-
-
-    // Fetch applications from the API
     useEffect(() => {
         const fetchApplications = async () => {
             try {
-                setIsLoading(true); // Start loading
+                setIsLoading(true);
                 const data = await ApplicationService.getApplications();
                 const userData = await LoginService.getUserData();
                 setUser(userData);
@@ -58,24 +54,21 @@ export default function Dashboard() {
             } catch (error) {
                 console.error(`Error fetching applications: ${error}`);
             } finally {
-                setIsLoading(false); // Stop loading
+                setIsLoading(false);
             }
         };
         fetchApplications();
     }, []);
 
-
     useEffect(() => {
         setApps(applications);
     }, [applications]);
-
 
     const filteredApps = apps.filter(app =>
         (app.company.toLowerCase().includes(search.toLowerCase()) ||
             app.role.toLowerCase().includes(search.toLowerCase())) &&
         (statusFilter ? app.status === statusFilter : true)
     );
-
 
     const handleStatusChange = async (id: string, newStatus: 'Applied' | 'Interview' | 'Offer' | 'Rejected') => {
         const updated = apps.map(app =>
@@ -91,7 +84,6 @@ export default function Dashboard() {
         setActiveStatusId(null);
     };
 
-
     const handleNoteChange = async (id: string, newNote: string) => {
         const updated = apps.map(app =>
             app._id === id ? { ...app, notes: newNote } : app
@@ -99,24 +91,21 @@ export default function Dashboard() {
         setApps(updated);
 
         try {
-            await ApplicationService.updateApplication(id, { notes: newNote }); // Send PATCH request
+            await ApplicationService.updateApplication(id, { notes: newNote });
         } catch (error) {
             console.error(`Error updating notes: ${error}`);
         }
     };
 
-
     const handleUpdateToggle = (id: string) => {
         setEditableRowId(editableRowId === id ? null : id);
     };
-
 
     const handleSaveRow = async (id: string) => {
         const updatedApp = apps.find(app => app._id === id);
         const originalApp = applications.find(app => app._id === id);
 
         if (!updatedApp || !originalApp) return;
-
 
         if (
             updatedApp.company === originalApp.company &&
@@ -140,7 +129,6 @@ export default function Dashboard() {
         }
     };
 
-
     const handleDelete = async (id: string) => {
         try {
             await ApplicationService.deleteApplication(id);
@@ -151,16 +139,13 @@ export default function Dashboard() {
         }
     };
 
-    // Calculate the total number of pages
     const totalPages = Math.ceil(filteredApps.length / ITEMS_PER_PAGE);
 
-    // Get the applications for the current page
     const paginatedApps = filteredApps.slice(
         (currentPage - 1) * ITEMS_PER_PAGE,
         currentPage * ITEMS_PER_PAGE
     );
 
-    // Handle page navigation
     const handlePreviousPage = () => {
         if (currentPage > 1) {
             setCurrentPage(currentPage - 1);
@@ -174,7 +159,6 @@ export default function Dashboard() {
     };
 
     if (isLoading) {
-        // Show loading animation while data is being fetched
         return (
             <div className="flex items-center justify-center h-screen">
                 <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500 border-solid"></div>
@@ -184,7 +168,6 @@ export default function Dashboard() {
 
     return (
         <div className="rounded-xl h-screen overflow-auto bg-gray-50 px-8" style={{ fontFamily: 'Inter, sans-serif' }}>
-            {/* Header */}
             <header className="flex justify-between items-center mb-6 my-10">
                 <div className="flex items-center gap-4">
                     <img
@@ -201,8 +184,6 @@ export default function Dashboard() {
                     <Link to="/" className="hover:text-blue-600">Dashboard</Link>
                 </nav>
             </header>
-
-            {/* No Applications Message */}
             {filteredApps.length === 0 ? (
                 <>
                     <div className="flex gap-4 mb-4">
@@ -275,11 +256,8 @@ export default function Dashboard() {
                         </button>
                     </div>
                 </>
-
-
             ) : (
                 <>
-                    {/* Filters */}
                     <div className="flex gap-4 mb-4">
                         <select
                             value={statusFilter}
@@ -320,8 +298,6 @@ export default function Dashboard() {
                             Add Application
                         </button>
                     </div>
-
-                    {/* Table */}
                     <div className="bg-white shadow overflow-x-auto relative rounded-3xl border border-blue-200 my-10">
                         {/* Left Pagination Icon */}
                         {totalPages > 1 && (
@@ -347,7 +323,6 @@ export default function Dashboard() {
                                 </svg>
                             </button>
                         )}
-
                         <table className="min-w-full divide-y divide-gray-200 text-sm relative border rounded-3xl">
                             <thead className="bg-blue-100 text-gray-600 text-left">
                                 <tr>
@@ -501,9 +476,6 @@ export default function Dashboard() {
                                 ))}
                             </tbody>
                         </table>
-
-
-                        {/* Right Pagination Icon */}
                         {totalPages > 1 && (
                             <button
                                 onClick={handleNextPage}

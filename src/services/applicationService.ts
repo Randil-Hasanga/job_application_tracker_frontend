@@ -11,7 +11,6 @@ const ApplicationService = {
             console.error("Error getting applications:", error);
             throw error;
         }
-
     },
     async updateApplication(applicationId: string, applicationData: any) {
         try {

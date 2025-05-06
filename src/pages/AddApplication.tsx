@@ -31,8 +31,8 @@ function AddApplication() {
     });
 
     const [description, setJobDescription] = useState('');
-    const [aiLoading, setAiLoading] = useState(false); // Loading state for AI button
-    const [submitLoading, setSubmitLoading] = useState(false); // Loading state for "Add Application" button
+    const [aiLoading, setAiLoading] = useState(false);
+    const [submitLoading, setSubmitLoading] = useState(false);
 
     const handleChange = (e: { target: { name: any; value: any } }) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -81,11 +81,10 @@ function AddApplication() {
             return;
         }
 
-        setSubmitLoading(true); // Start loading animation for "Add Application" button
+        setSubmitLoading(true);
         try {
             const response = await ApplicationService.createApplication(formData);
             console.log(response);
-            // Reset form data after successful submission
             setFormData({
                 company: '',
                 role: '',
@@ -122,7 +121,7 @@ function AddApplication() {
     };
 
     const handleProcessJobDescription = async () => {
-        setAiLoading(true); // Start loading animation for AI button
+        setAiLoading(true);
         try {
             const response = await TextGeneratorService.extractJobData({ description });
             setFormData({
@@ -131,18 +130,17 @@ function AddApplication() {
                 dateApplied: response.dateApplied,
                 status: response.status,
                 notes: '',
-                vacancy_link: '', // Reset application link if needed
+                vacancy_link: '',
             });
         } catch (error) {
             console.error('Error processing job description:', error);
         } finally {
-            setAiLoading(false); // Stop loading animation
+            setAiLoading(false);
         }
     };
 
     return (
         <div className="h-screen overflow-auto bg-gray-50 px-8 py-6" style={{ fontFamily: 'Inter, sans-serif' }}>
-            {/* Header */}
             <header className="flex justify-between items-center mb-6">
                 <nav className="space-x-6 text-sm text-gray-700 font-medium">
                     <button onClick={() => navigate('/dashboard')} className="flex items-center gap-1 hover:text-blue-600">
@@ -151,12 +149,9 @@ function AddApplication() {
                     </button>
                 </nav>
             </header>
-
-            {/* Form Container */}
             <div className="bg-white rounded-3xl border border-blue-400 shadow px-8 py-4 max-w-4xl mx-auto">
                 <h2 className="text-3xl font-semibold text-gray-800 mb-2 text-right">Add Job Application</h2>
                 <form onSubmit={handleSubmit} className="space-y-4">
-                    {/* Job Description Section */}
                     <div className="rounded-3xl mb-6">
                         <label className="block font-medium text-Black mb-2">You can use AI to extract information!</label>
                         <div className="relative">
@@ -167,7 +162,6 @@ function AddApplication() {
                                 rows={3}
                                 className="w-full border border-gray-300 px-4 py-2 rounded-3xl focus:ring-2 focus:ring-blue-500 focus:outline-none"
                             />
-                            {/* Generative AI Icon Button */}
                             <button
                                 type="button"
                                 onClick={handleProcessJobDescription}
@@ -210,7 +204,6 @@ function AddApplication() {
                         <p className='text-sm w-full space-y-0 text-center'>AI can make mistakes. Check important info</p>
                     </div>
                     <hr className="my-6 border-gray-500" />
-                    {/* Company */}
                     <div className="rounded-3xl">
                         <label className="block font-bold text-gray-700 mb-1">Company</label>
                         <input
@@ -223,8 +216,6 @@ function AddApplication() {
                         />
                         {errors.company && <p className="text-red-500 text-sm mt-1">{errors.company}</p>}
                     </div>
-
-                    {/* Role */}
                     <div className="rounded-3xl">
                         <label className="block font-bold text-gray-700 mb-1">Role</label>
                         <input
@@ -237,8 +228,6 @@ function AddApplication() {
                         />
                         {errors.role && <p className="text-red-500 text-sm mt-1">{errors.role}</p>}
                     </div>
-
-                    {/* Date and Status */}
                     <div className="flex space-x-6 rounded-3xl">
                         <div className="flex-1">
                             <label className="block font-bold text-gray-700 mb-1">Date Applied</label>
@@ -251,8 +240,6 @@ function AddApplication() {
                             />
                             {errors.dateApplied && <p className="text-red-500 text-sm mt-1">{errors.dateApplied}</p>}
                         </div>
-
-                        {/* Status Dropdown */}
                         <div className="flex-1 rounded-3xl">
                             <label className="block font-bold text-gray-700 mb-1">Status</label>
                             <select
@@ -275,8 +262,6 @@ function AddApplication() {
                             {errors.status && <p className="text-red-500 text-sm mt-1">{errors.status}</p>}
                         </div>
                     </div>
-
-                    {/* Application Link */}
                     <div className="rounded-3xl">
                         <label className="block font-bold text-gray-700 mb-1">Job Vacancy Link</label>
                         <input
@@ -289,8 +274,6 @@ function AddApplication() {
                         />
                         {errors.vacancy_link && <p className="text-red-500 text-sm mt-1">{errors.vacancy_link}</p>}
                     </div>
-
-                    {/* Notes */}
                     <div className="rounded-3xl">
                         <label className="block font-bold text-gray-700 ">Notes</label>
                         <textarea
@@ -302,8 +285,6 @@ function AddApplication() {
                             className="w-full border border-gray-300 px-4 py-2 rounded-3xl focus:ring-2 focus:ring-blue-500 focus:outline-none"
                         />
                     </div>
-
-                    {/* Buttons */}
                     <div className="flex justify-end space-x-4 rounded-3xl">
                         <button
                             type="button"
@@ -315,7 +296,7 @@ function AddApplication() {
                         <button
                             type="submit"
                             className={`bg-blue-600 border border-white text-white px-4 py-2 rounded-3xl hover:bg-white hover:text-black hover:border-black shadow-lg flex items-center gap-2 ${submitLoading ? 'opacity-70 cursor-not-allowed' : ''}`}
-                            disabled={submitLoading} // Disable button while loading
+                            disabled={submitLoading}
                         >
                             {submitLoading ? (
                                 <svg

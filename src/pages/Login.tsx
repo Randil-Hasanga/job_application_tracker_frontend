@@ -1,52 +1,54 @@
 import React from 'react';
 import { FcGoogle } from 'react-icons/fc';
-import illustration from '../assets/log in.png'; // Adjust the path based on your project structure
+import illustration from '../assets/log in.png';
 import { useNavigate } from 'react-router-dom';
 import LoginService from '../services/loginService';
 
 export default function LoginPage() {
+
     const navigate = useNavigate();
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
     const [errors, setErrors] = React.useState({
         email: '',
         password: '',
-    }); // State for field-specific error messages
-    const [errorMessage, setErrorMessage] = React.useState(''); // State for general error message
-    const [loading, setLoading] = React.useState(false); // State for loading animation
+    });
+
+    const [errorMessage, setErrorMessage] = React.useState('');
+    const [loading, setLoading] = React.useState(false);
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
-        setErrorMessage(''); // Clear any previous general error message
-        const newErrors = { email: '', password: '' }; // Reset field-specific errors
+        setErrorMessage('');
+        const newErrors = { email: '', password: '' };
 
-        // Form validation
         if (!email.trim()) {
             newErrors.email = 'Email is required.';
         } else if (!/\S+@\S+\.\S+/.test(email)) {
             newErrors.email = 'Please enter a valid email address.';
         }
+        
         if (!password.trim()) {
             newErrors.password = 'Password is required.';
         }
 
         setErrors(newErrors);
 
-        // If there are any errors, stop form submission
         if (Object.values(newErrors).some((error) => error)) {
             return;
         }
 
-        setLoading(true); // Start loading animation
+        setLoading(true);
+
         try {
-            const response = await LoginService.login(email, password); // Await the login response
+            const response = await LoginService.login(email, password);
             console.log('Login successful:', response);
-            navigate('/dashboard'); // Redirect to dashboard
+            navigate('/dashboard');
         } catch (error) {
             console.error('Login failed:', error);
-            setErrorMessage('Invalid email or password. Please try again.'); // Set general error message
+            setErrorMessage('Invalid email or password. Please try again.');
         } finally {
-            setLoading(false); // Stop loading animation
+            setLoading(false);
         }
     };
 
@@ -104,9 +106,8 @@ export default function LoginPage() {
 
                         <button
                             type="submit"
-                            className={`w-full bg-blue-600 text-white font-medium px-4 py-2 rounded-md hover:bg-blue-700 transition flex items-center justify-center ${
-                                loading ? 'opacity-70 cursor-not-allowed' : ''
-                            }`}
+                            className={`w-full bg-blue-600 text-white font-medium px-4 py-2 rounded-md hover:bg-blue-700 transition flex items-center justify-center ${loading ? 'opacity-70 cursor-not-allowed' : ''
+                                }`}
                             disabled={loading} // Disable button while loading
                         >
                             {loading ? (
