@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ApplicationService from '../services/applicationService';
 import TextGeneratorService from '../services/textGenService';
+import { useAuthRedirect } from '../hooks/checkAuth';
 
 const statusColors: Record<string, string> = {
     Applied: 'text-blue-800 bg-blue-100',
@@ -12,6 +13,7 @@ const statusColors: Record<string, string> = {
 };
 
 function AddApplication() {
+    useAuthRedirect();
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         company: '',

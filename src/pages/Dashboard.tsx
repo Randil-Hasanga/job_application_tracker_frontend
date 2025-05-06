@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import ApplicationService from '../services/applicationService';
 import { useNavigate } from 'react-router-dom';
 import LoginService from '../services/loginService';
+import { useAuthRedirect } from '../hooks/checkAuth';
 
 const statusColors: Record<string, string> = {
     Applied: 'bg-blue-100 text-blue-800',
@@ -29,6 +30,7 @@ type User = {
 };
 
 export default function Dashboard() {
+    useAuthRedirect();
     const ITEMS_PER_PAGE = 10;
     const [currentPage, setCurrentPage] = useState(1);
     const [applications, setApplications] = useState<Application[]>([]);
