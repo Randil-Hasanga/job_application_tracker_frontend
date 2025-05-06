@@ -43,6 +43,16 @@ const LoginService = {
             console.error('Error fetching user data:', error);
             throw error;
         }
+    },
+
+    async logout() {
+        try {
+            const response = await axios.get(`${baseUrl}/logout`, {withCredentials: true})
+            return response.data;
+        } catch (error) {
+            console.error('Error logging out:', error);
+            throw error;
+        }
     }
 }
 

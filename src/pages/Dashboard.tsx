@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import illustration from '../assets/nothing_found.png';
 import ApplicationService from '../services/applicationService';
 import { useNavigate } from 'react-router-dom';
 import LoginService from '../services/loginService';
 import { useAuthRedirect } from '../hooks/checkAuth';
+import { ChevronDownIcon } from '@heroicons/react/20/solid';
 
 const statusColors: Record<string, string> = {
     Applied: 'bg-blue-100 text-blue-800',
@@ -44,6 +45,7 @@ export default function Dashboard() {
     const [isLoading, setIsLoading] = useState(true); // New state for loading animation
     const [user, setUser] = useState<User>();
     const navigate = useNavigate();
+    const [logoutLoading, setLogoutLoading] = useState(false);
 
     useEffect(() => {
         const fetchApplications = async () => {
@@ -168,6 +170,22 @@ export default function Dashboard() {
         );
     }
 
+    const handleLogout = async () => {
+        try {
+            setLogoutLoading(true);
+            const response = await LoginService.logout();
+            console.log(response)
+            if (response.sucess) {
+                navigate('/login');
+            } else {
+                setLogoutLoading(false);
+            }
+        } catch (error) {
+            console.error('Error logging out:', error);
+            throw error;
+        }
+    }
+
     return (
         <div className="rounded-xl h-screen overflow-auto bg-gray-50 px-8" style={{ fontFamily: 'Inter, sans-serif' }}>
             <header className="flex justify-between items-center mb-6 my-10">
@@ -182,24 +200,76 @@ export default function Dashboard() {
                         <p className="text-sm text-gray-600">{user?.displayName}</p>
                     </div>
                 </div>
-                <nav className="space-x-6 text-sm text-gray-700 font-medium">
-                    <Link to="/" className="hover:text-blue-600">Dashboard</Link>
-                </nav>
+
+
+                {logoutLoading ? (
+                    <svg
+                        className="animate-spin h-5 w-5 text-red-600"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                    >
+                        <circle
+                            className="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            strokeWidth="4"
+                        ></circle>
+                        <path
+                            className="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8v8H4z"
+                        ></path>
+                    </svg>
+                ) : (
+                    <button
+                        onClick={handleLogout}
+                        className={`bg-red-500 border border-white text-white px-4 py-2 rounded-3xl hover:bg-white hover:text-black hover:border-black shadow-lg flex items-center gap-2 ${logoutLoading ? 'opacity-70 cursor-not-allowed' : ''}`}
+                        disabled={logoutLoading}
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={2}
+                            stroke="currentColor"
+                            className="w-6 h-6"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M17 16l4-4-4-4m5 4H9M4 4h7a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2z"
+                            />
+                        </svg>
+                        Logout
+                    </button>
+                )}
+
             </header>
+            <hr className="border-t-2 border-gray-300 my-8" />
             {filteredApps.length === 0 ? (
                 <>
                     <div className="flex gap-4 mb-4">
-                        <select
-                            value={statusFilter}
-                            onChange={e => setStatusFilter(e.target.value)}
-                            className="border border-gray-300 rounded-3xl px-4 py-2 w-56"
-                        >
-                            <option value="">Filter by status</option>
-                            <option value="Applied">Applied</option>
-                            <option value="Interview">Interview</option>
-                            <option value="Offer">Offer</option>
-                            <option value="Rejected">Rejected</option>
-                        </select>
+                        <div className="relative w-56">
+                            <select
+                                value={statusFilter}
+                                onChange={e => setStatusFilter(e.target.value)}
+                                className="appearance-none border border-gray-300 rounded-3xl px-4 py-2 w-full pr-10"
+                            >
+                                <option value="">Filter by status</option>
+                                <option value="Applied">Applied</option>
+                                <option value="Interview">Interview</option>
+                                <option value="Offer">Offer</option>
+                                <option value="Rejected">Rejected</option>
+                            </select>
+
+                            <ChevronDownIcon
+                                className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500 pointer-events-none"
+                            />
+                        </div>
+
                         <input
                             type="text"
                             placeholder="Search by company or role"
@@ -229,12 +299,7 @@ export default function Dashboard() {
                         </button>
                     </div>
                     <div className="flex flex-col items-center justify-center mt-20">
-                        {/* SVG illustration */}
-                        <img
-                            src="src/assets/nothing_found.svg"
-                            alt="No Applications"
-                            className="w-90 h-80 mb-6"
-                        />
+                        <img src={illustration} alt="Login Illustration" className="w-90 h-80 mb-6" />
                         <h2 className="text-xl font-semibold text-gray-700 mb-4">No applications found</h2>
                         <button
                             onClick={() => navigate('/add-application')}
@@ -261,17 +326,23 @@ export default function Dashboard() {
             ) : (
                 <>
                     <div className="flex gap-4 mb-4">
-                        <select
-                            value={statusFilter}
-                            onChange={e => setStatusFilter(e.target.value)}
-                            className="border border-gray-300 rounded-3xl px-4 py-2 w-56"
-                        >
-                            <option value="">Filter by status</option>
-                            <option value="Applied">Applied</option>
-                            <option value="Interview">Interview</option>
-                            <option value="Offer">Offer</option>
-                            <option value="Rejected">Rejected</option>
-                        </select>
+                        <div className="relative w-56">
+                            <select
+                                value={statusFilter}
+                                onChange={e => setStatusFilter(e.target.value)}
+                                className="appearance-none border border-gray-300 rounded-3xl px-4 py-2 w-full pr-10"
+                            >
+                                <option value="">Filter by status</option>
+                                <option value="Applied">Applied</option>
+                                <option value="Interview">Interview</option>
+                                <option value="Offer">Offer</option>
+                                <option value="Rejected">Rejected</option>
+                            </select>
+
+                            <ChevronDownIcon
+                                className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500 pointer-events-none"
+                            />
+                        </div>
                         <input
                             type="text"
                             placeholder="Search by company or role"
@@ -326,7 +397,7 @@ export default function Dashboard() {
                             </button>
                         )}
                         <table className="min-w-full divide-y divide-gray-200 text-sm relative border rounded-3xl">
-                            <thead className="bg-blue-100 text-gray-600 text-left">
+                            <thead className="dark:bg-indigo-200 text-gray-600 text-left">
                                 <tr>
                                     <th className="px-6 py-3 font-semibold text-center"></th> {/* Empty first column */}
                                     <th className="px-6 py-3 font-semibold text-center">Company</th>
