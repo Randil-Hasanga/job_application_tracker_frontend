@@ -57,7 +57,7 @@ export default function LoginPage() {
     };
 
     return (
-        <div className="border border-blue-200 min-h-screen flex items-center justify-center bg-gray-50" style={{ fontFamily: 'Inter, sans-serif' }}>
+        <div className="border border-blue-200 min-h-screen flex items-center justify-center bg-gray-50 px-4 sm:px-8" style={{ fontFamily: 'Inter, sans-serif' }}>
             <div className="flex flex-col md:flex-row items-center justify-center w-full max-w-4xl border border-blue-200 rounded-xl shadow-lg bg-white p-4 md:p-8 my-6">
 
                 {/* Illustration Section */}
