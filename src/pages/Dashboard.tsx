@@ -560,7 +560,7 @@ export default function Dashboard() {
                             <button
                                 onClick={handleNextPage}
                                 disabled={currentPage === totalPages}
-                                className={`z-10 absolute sm:-right-0 -right-8 top-1/2 transform -translate-y-1/2 px-3 py-2 rounded-full ${currentPage === totalPages ? 'z-10 cursor-not-allowed' : ' text-black hover:text-blue-700'
+                                className={`z-10 absolute sm:-right-0 -right-6 top-1/2 transform -translate-y-1/2 px-3 py-2 rounded-full ${currentPage === totalPages ? 'z-10 cursor-not-allowed' : ' text-black hover:text-blue-700'
                                     }`}
                             >
                                 <svg

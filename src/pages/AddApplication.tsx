@@ -142,7 +142,7 @@ function AddApplication() {
     };
 
     return (
-        <div className="h-screen overflow-auto bg-gray-50 px-4 sm:px-8 py-4 sm:py-6" style={{ fontFamily: 'Inter, sans-serif' }}>
+        <div className="h-screen overflow-auto bg-gray-50 px-4 sm:px-8 py-4 mb-8 sm:mb-0 sm:py-6" style={{ fontFamily: 'Inter, sans-serif' }}>
             <header className="flex justify-between items-center mb-4 sm:mb-6">
                 <nav className="space-x-4 sm:space-x-6 text-sm text-gray-700 font-medium">
                     <button
