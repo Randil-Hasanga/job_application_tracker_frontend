@@ -16,6 +16,7 @@ export default function RegistrationPage() {
         password: '',
     });
     const [loading, setLoading] = React.useState(false);
+    const [errorMessage, setErrorMessage] = React.useState('');
 
     const handleGoogleLogin = () => {
         LoginService.googleLogin();
@@ -23,6 +24,7 @@ export default function RegistrationPage() {
 
     const handleSignUp = async (e: React.FormEvent) => {
         e.preventDefault();
+        setErrorMessage('');
         const newErrors = { displayName: '', email: '', password: '' };
 
         // Form validation
@@ -54,18 +56,10 @@ export default function RegistrationPage() {
             if (response) {
                 console.log('Sign up successful:', response);
                 navigate('/');
-            } else {
-                setErrors((prev) => ({
-                    ...prev,
-                    email: 'Sign up failed. Please try again.',
-                }));
             }
-        } catch (error) {
+        } catch (error: any) {
             console.error('Sign up failed:', error);
-            setErrors((prev) => ({
-                ...prev,
-                email: 'An error occurred during sign up. Please try again.',
-            }));
+            setErrorMessage(error.message || 'An error occurred during sign up. Please try again.');
         } finally {
             setLoading(false);
         }
@@ -83,6 +77,12 @@ export default function RegistrationPage() {
                 {/* Registration Form Section */}
                 <div className="w-full md:w-1/2 mt-6 md:mt-0">
                     <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center">Create Account</h2>
+
+                    {errorMessage && (
+                        <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-md">
+                            <p className="text-red-600 text-sm text-center">{errorMessage}</p>
+                        </div>
+                    )}
 
                     <form className="space-y-4" onSubmit={handleSignUp}>
                         <div>

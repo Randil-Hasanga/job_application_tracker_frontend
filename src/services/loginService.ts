@@ -30,8 +30,11 @@ const LoginService = {
         try {
             const response = await axios.post(`${baseUrl}/register`, { displayName, email, password }, { withCredentials: true });
             return response.data;
-        } catch (error) {
-
+        } catch (error: any) {
+            if (error.response?.data?.message) {
+                throw new Error(error.response.data.message);
+            }
+            throw error;
         }
     },
 
