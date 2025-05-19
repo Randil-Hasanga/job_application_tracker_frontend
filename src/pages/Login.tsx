@@ -61,9 +61,16 @@ export default function LoginPage() {
             <div className="flex flex-col md:flex-row items-center justify-center w-full max-w-4xl border border-blue-200 rounded-xl shadow-lg bg-white p-4 md:p-8 my-6">
 
                 {/* Illustration Section */}
-                <div className="hidden md:block w-full md:w-1/2 pr-0 md:pr-6">
-                    <img src={illustration} alt="Login Illustration" className="w-full h-auto object-cover" />
+                <div className="hidden md:flex w-full md:w-1/2 pr-0 md:pr-6 flex-col items-center justify-center">
+                    <h2 className="text-4xl mb-4 text-center text-blue-800" style={{ fontFamily: "'Montserrat', cursive" }}>Personal Job Application Tracker</h2>
+                    <img
+                        src={illustration}
+                        alt="Login Illustration"
+                        className="w-72 h-auto object-cover"
+                    />
                 </div>
+
+
 
                 {/* Login Form Section */}
                 <div className="w-full md:w-1/2 mt-6 md:mt-0">

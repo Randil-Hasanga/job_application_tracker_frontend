@@ -9,6 +9,7 @@ export default {
   plugins: [],
   fontFamily: {
     sans: ['Inter', 'sans-serif'],
+    montserrat: ['Montserrat', 'sans-serif'],
   },
   
 }
