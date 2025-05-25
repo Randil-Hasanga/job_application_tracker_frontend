@@ -31,3 +31,19 @@ src/
 
 
 > This project was bootstrapped with [Vite](https://vitejs.dev/) and uses [Tailwind CSS](https://tailwindcss.com/) for styling.
+
+## Screenshots
+
+
+> Login Page
+![Screenshot (44)](https://github.com/user-attachments/assets/577a7e86-7b02-4c52-a36d-d524471b6cfc)
+
+> Signup Page
+![Screenshot (45)](https://github.com/user-attachments/assets/bbfbac26-3b32-4179-a7ba-e5c3c1ba904f)
+
+> Dashboard
+![Screenshot (42)](https://github.com/user-attachments/assets/2b400fb2-26bd-43bc-a9bb-4eed1e26f893)
+
+> Add application page
+![Screenshot (43)](https://github.com/user-attachments/assets/7aae09da-fc86-456a-9e22-975e1ad26ddb)
+
