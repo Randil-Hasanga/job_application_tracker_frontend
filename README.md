@@ -1,6 +1,7 @@
 # Job Application Tracker (Frontend)
 
 A modern web app for tracking your job applications, built with **React**, **TypeScript**, **Vite**, and **Tailwind CSS**.
+> Backend - https://github.com/Randil-Hasanga/job_application_tracker_backend
 
 ## Features
 
